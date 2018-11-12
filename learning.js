@@ -70,7 +70,7 @@ function sort(array)
         for(j=0; j<array.length; j++)
             if(array[i] > array[j])
             {
-                var t = array[i];
+                let t = array[i];
                 array[i] = array[j];
                 array[j] = t;
             }
@@ -86,8 +86,7 @@ let stringArray = ["Igor", "Jana", "Stevan", "Simeun"];
 function search(stringArray)
 {
     let j =0;
-    stringArray.forEach(function(name)
-    {
+    stringArray.forEach(function(name) {
         if(name === "Jana")
             j++;
     });
@@ -97,12 +96,11 @@ function search(stringArray)
 print(stringArray);
 search(stringArray);
 
-let carArray =
-    [
-        {type: "Fiat", model: "500", color: "white"},
-        {type: "BMW", model: "i8", color: "black"},
-        {type: "Opel", model: "Astra", color: "white"}
-    ];
+let carArray = [
+    {type: "Fiat", model: "500", color: "white"},
+    {type: "BMW", model: "i8", color: "black"},
+    {type: "Opel", model: "Astra", color: "white"}
+];
 
 
 carArray.forEach(function(object)
@@ -111,3 +109,13 @@ carArray.forEach(function(object)
             console.log(object.type + ", " + object.model + ", " + object.color)
     });
 
+function getValue(field) {
+    const object = {
+        name: 1,
+        age: 2,
+        nesto: 3
+    }
+    return object[field]
+}
+
+console.log(getValue('age'));

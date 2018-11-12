@@ -1,0 +1,12 @@
+[
+  {"asd":[{"a": 1, "b": 2}]},
+  "Danas je lijep dan.",
+  123123,
+  {
+  "name":1,
+  "employees":[
+    {"firstName":"John", "lastName":"Doe"},
+    {"firstName":"Anna", "lastName":"Smith"},
+    {"firstName":"Peter", "lastName":"Jones"}
+  ]
+}]
