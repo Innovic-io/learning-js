@@ -1,3 +1,4 @@
+// @TODO refactor so function/arrow is used properly
 console.log("Function as argument: ");
 
     function Name1(s)

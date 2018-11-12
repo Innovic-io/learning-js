@@ -1,3 +1,4 @@
+// @TODO write this as tests, so it can be clear what is going on
 let v1 = Symbol(200);
 let v2 = Symbol(200);
 

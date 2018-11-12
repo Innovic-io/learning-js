@@ -5,11 +5,9 @@ let sum = array.map((element) => {
 }).reduce((sum, value) => {
     return sum + value;
 }, 0);
-array.map().filter().map().filter().for
 
 console.log(sum);
 let sum = 0
 for( let i = 0; i<array.length; i++){
     sum += array[i];
-
 }

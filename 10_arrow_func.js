@@ -7,6 +7,7 @@ const names = [
 
 let nvalue1 = names.map((array) => {return array});
 
+// @TODO why you use brackets (names) ?
 let nvalue2 = () => (names);
 let nvalue3 = () => ({Imena: names});
 

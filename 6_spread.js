@@ -8,11 +8,6 @@ console.log(obj1);
 const obj2 = { ...obj1, maxSpeed: 200, numberOfDoors: 5};
 console.log(obj2);
 
-/*  How to do this?
-const color, model = obj2
-const one, two, rest = array2
-*/
-
 const {color, model} = obj1;
 console.log(color);
 console.log(model);

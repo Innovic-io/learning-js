@@ -6,7 +6,7 @@
 *     const can't be re-defined neither updated. It is also block scoped
 *     */
 
-re-defined
+// re-defined
 
 var n1 = "Branislav";         let n2 = "Branislav";                 const n3 = "Branislav";
 var n1 = "Ivan";//allowed     let n2 = "Ivan"; //error              const n3 = "Ivan"; //error

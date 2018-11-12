@@ -1,3 +1,4 @@
+// @TODO try to make Hi function of "UserClass"
 function UserClass (name, surname) {
         this.name = name;
         this.surname = surname;

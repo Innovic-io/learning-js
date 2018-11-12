@@ -1,3 +1,9 @@
+// @TODO use let/const properly
+// @TODO try to use backtic where possible and useful.
+// @TODO refactor so function/arrow is used properly
+// @TODO use === insted of ==
+// @TODO refactor for loops here
+
 let name, surname;
 name = "Branislav";
 surname = "Simsic";
@@ -23,7 +29,7 @@ function concatenate(string1, string2)
 {
     return string1 + " " + string2;
 }
-
+//  @TODO make concatenate with infinite number of elements
 const s = concatenate("Jedan", "jedini");
 console.log(s);
 
