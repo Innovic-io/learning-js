@@ -1,3 +1,5 @@
+const assert = require('assert');
+
 const names = [
     'Helena',
     'Uros',
@@ -5,15 +7,19 @@ const names = [
     'Milica'
     ];
 
-let nvalue1 = names.map((array) => {return array});
+const nvalue1 = names.map((array) => {return array});
 
-// @TODO why you use brackets (names) ?
-let nvalue2 = () => (names);
-let nvalue3 = () => ({Imena: names});
+const nvalue2 = () => names;
 
-let nvalue4 = ((...args) => args)(1, 2, 3);
+const nvalue3 = () => ({Imena: names});
+const nvalue5 = () => { return {Imena: names} };
+function nvalue6() {
+    return {Imena: names};
+}
 
-let nvalues2 = function(array) {
+const nvalue4 = ((...args) => args)(1, 2, 3, names, 'sadasd', 123);
+
+const nvalues2 = function(array) {
     return array;
 };
 
@@ -22,3 +28,6 @@ console.log(nvalue2());
 console.log(nvalue3());
 console.log(nvalue4);
 console.log(nvalues2(names));
+
+assert.deepEqual(nvalue3(), nvalue5());
+assert.deepEqual(nvalue6(), nvalue3());
