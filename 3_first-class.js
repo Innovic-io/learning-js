@@ -1,42 +1,60 @@
 // @TODO refactor so function/arrow is used properly
-console.log("Function as argument: ");
 
-    function Name1(s)
-    {
-        return s;
-    }
+//Function used as argument
 
-    function fullname(name, surname)
-    {
-        console.log(name + " " + surname);
-    }
-
-    fullname(Name1("Branislav"), "Simsic");
-
-
-console.log("Function returns another function: ");
-
-function n()
-{
-    console.log("Obrad");
-};
-
-function Name2()
-{
-    return n();
-}
-
-Name2();
-
-
-console.log("Function as a value of variable: ");
-
-function Name3(s)
-{
+function nameRetF(s) {
     return s;
 }
 
-let name3 = Name3("Ivan");
+function fullnameF(name, surname) {
+    console.log(name + " " + surname);
+}
 
-console.log(name3);
+fullnameF(nameRetF("Branislav"), "Simsic");
 
+//Arrow used as argument
+
+const nameRetA = (n) => n;
+
+const fullnameA = () => console.log(nameRetA('Jovan'), 'Zvizdic');
+
+fullnameA();
+
+//Function returns function
+
+function n() {
+    console.log('Obrad');
+}
+
+function retFunction() {
+    return n();
+}
+retFunction();
+
+//Arrow returns arrow
+
+const fAsValue = () => console.log('Petar');
+
+const fAs = () => fAsValue();
+fAs();
+
+//Function used as value
+
+function fValue(number) {
+    return number*3;
+}
+
+const numValueF = fValue(3);
+console.log(numValueF);
+
+
+//Arrow used object
+
+let peopleA = {
+    names: ['Stefan', 'Njegos', 'Risto', 'Vuk'],
+    funcNames:() =>  {
+        console.log(this.names)
+        }
+};
+
+peopleA.funcNames();

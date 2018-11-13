@@ -1,3 +1,7 @@
+// @TODO make functions in such way that calls can be linked
+/*
+    for Example so I can use ll.add(1).add(2).printList()
+ */
 const LinkedList = require('./23_LInkedListClass');
 
 let ll = new LinkedList();

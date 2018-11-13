@@ -1,13 +1,32 @@
 // @TODO write this as tests, so it can be clear what is going on
-let v1 = Symbol(200);
-let v2 = Symbol(200);
+const assert = require('assert');
 
-if(v1 == v2)
-    console.log(`${v1.toString()} and ${v2.toString()} are equal`);
-else
-    console.log(`${v1.toString()} and ${v2.toString()} are not equal`);
+const v1 = Symbol(200);
+const v2 = Symbol(200);
 
-if(v1 === v2)
-    console.log(`${v1.toString()} and ${v2.toString()} are equal`);
-else
-    console.log(`${v1.toString()} and ${v2.toString()} are not equal`);
+assert.notEqual(v1, v2);
+assert.notDeepEqual(v1, v2);
+assert.notStrictEqual(v1, v2);
+assert.notDeepStrictEqual(v1, v2);
+
+const obj1 = {
+    "name": "Igor",
+    "surname": "Protic",
+    "height": 180,
+    "weight": 90
+};
+
+const obj2 = {
+    "name": "Igor",
+    "surname": "Protic",
+    "height": 180,
+    "weight": 90
+};
+
+const o1 = Symbol(obj1);
+const o2 = Symbol(obj2);
+
+assert.notEqual(o1, o2);
+assert.notDeepEqual(o1, o2);
+assert.notStrictEqual(o1, o2);
+assert.notDeepStrictEqual(o1, o2);
