@@ -9,9 +9,9 @@ class LinkedList {
      add(el) {
         const node = new Node(el);
 
-        if (this.head == null)
+        if (this.head == null){
             this.head = node;
-        else {
+        } else {
             let current = this.head;
 
             while (current.next ) {
@@ -20,25 +20,26 @@ class LinkedList {
             current.next = node;
         }
         this.size++;
+        console.log(`element '${el}' is added`);
+        return this;
     }
 
      addAt(el, index) {
-        if (index < 0 || index > this.size)
-            return false;
-        else {
+        if (index < 0 || index > this.size + 1){
+
+        } else {
             const node = new Node(el);
 
-            if (index == 0) {
-                node.next = head;
+            if (index === 0) {
+                node.next = this.head;
                 this.head = node;
-            }
-            else {
+            } else {
                 let prev;
                 let curr = this.head;
-                let it = 0;
+                let tempIndex = 0;
 
-                while (it < index) {
-                    it++;
+                while (tempIndex < index) {
+                    tempIndex++;
                     prev = curr;
                     curr = curr.next;
                 }
@@ -47,6 +48,8 @@ class LinkedList {
                 prev.next = node;
             }
             this.size++;
+            console.log(`element '${el}' is added at position [${index}]`);
+            return this;
         }
     }
 
@@ -59,42 +62,42 @@ class LinkedList {
             if (current.el === el) {
                 if (prev == null) {
                     this.head = current.next;
-                }
-                else {
+                } else {
                     prev.next = current.next;
                 }
                 this.size--;
-                return current.el;
-
             }
             prev = current;
             current = current.next;
         }
-        return ;
+        console.log(`element '${el}' is removed`);
+        return this;
+
     }
 
 
     removeElAt(index) {
-        if (index < 0 || index > this.size)
-            return;
-        else {
-            let it = 0, curr, prev;
+        if (index < 0 || index > this.size){
+
+        } else {
+            let tempIndex = 0, curr, prev;
             curr = this.head;
             prev = curr;
 
-            if (index == 0) {
+            if (index === 0) {
                 this.head = curr.next;
-            }
-            else {
-                while (it < index) {
-                    it++;
+            } else {
+                while (tempIndex < index) {
+                    tempIndex++;
                     prev = curr;
                     curr = curr.next;
                 }
                 prev.next = curr.next;
             }
             this.size--;
-            return curr.el;
+            console.log(`element '${curr.el}' at the position [${index}] is removed`);
+            return this;
+
         }
     }
 
@@ -109,8 +112,21 @@ class LinkedList {
     }
 
     printEl (index) {
-        if(index < 0 || index > this.size)
-            return;
+        if(index < 0 || index > this.size){
+
+        }else{
+            let tempIndex = 0;
+            let curr = this.head;
+            let prev = null;
+
+            while(tempIndex < index) {
+                prev = curr;
+                curr = curr.next;
+                tempIndex++;
+            }
+            console.log(curr.el);
+
+        }
 
 
     }
