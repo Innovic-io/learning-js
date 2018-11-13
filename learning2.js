@@ -46,7 +46,7 @@ keeping the original array.
 
 // 9. Example
 
-// 10. Arrow function can't be used as a 'new', it means it is not a constructor, but arrow function can return a value without using a 'return' keyword.
+// 10. Arrow function can't be used as a 'new', it means it is not a constructor, but arrow function can return a value without using a 'return' keyword. (3_first-class.js)
 
 /* 11. Promise is an object that may product a value in future, either a resolved value or a reason why it is not resolved. It has three states:
 fulfilled, rejected or pending.
@@ -84,4 +84,7 @@ makes Javascript waits until the promise is fulfilled. */
     It can't be a function, date or undefined.
  */
 
+/* 24. Internet Protocol is a method or protocol by which the data is sent from one computer to another on the internet. Each computer on the internet has at least one IP adress that
+is uniquely identifies it from the othe computer on the internet.
+ */
 

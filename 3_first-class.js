@@ -48,13 +48,56 @@ const numValueF = fValue(3);
 console.log(numValueF);
 
 
-//Arrow used object
+//Function
 
-let peopleA = {
+const peopleA = {
     names: ['Stefan', 'Njegos', 'Risto', 'Vuk'],
-    funcNames:() =>  {
+    funcNames:function() {
         console.log(this.names)
         }
 };
 
 peopleA.funcNames();
+
+//Arrow and function
+
+function name() {
+    this.array = [1, 2, 3];
+    const self = this;
+
+    function subFunction() {
+        console.log(this.array); // supposed to be undefined
+        console.log(self.array); // 1, 2, 3
+    }
+    subFunction();
+
+    func = () => {
+        console.log(self.array); // 1, 2, 3
+        console.log(this.array); // 1, 2, 3
+    };
+    func()
+}
+
+name();
+
+//Function
+
+const cat1 = {
+    lives: 9,
+    jumps: function (){
+        this.lives--;
+    }
+}
+cat1.jumps();
+console.log(cat1.lives);
+
+//Arrow
+
+const cat2 = {
+    lives: 9,
+    jumps: () => {
+        this.lives--;
+    }
+}
+cat2.jumps();
+console.log(cat2.lives);
