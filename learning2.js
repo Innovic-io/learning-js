@@ -56,7 +56,6 @@ fulfilled, rejected or pending.
 makes Javascript waits until the promise is fulfilled. */
 
 // 13. Example
-
 // 14. Examples
 
 // 15. Symbol value represents a unique identifier. So if we have two symbols with the same description, they are not equal.
