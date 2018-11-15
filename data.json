@@ -1,0 +1,48 @@
+{
+  "pets":  [
+    {
+      "name": "Rori",
+      "tags": 1,
+      "status": "alive",
+      "breed": "Akita",
+      "age": 1.5,
+      "id": "5adjw001"
+    },
+    {
+      "name" : "Bori",
+      "tags" : 2,
+      "status" : "alive",
+      "breed": "Boxer",
+      "age": 1,
+      "id": "5adjw002"
+    },
+    {
+      "name" : "Lori",
+      "tags" : 3,
+      "status" : "alive",
+      "breed": "Dalmatian",
+      "age": 2,
+      "id": "5adjw003"
+    }
+  ],
+  "examinations":[
+    {
+      "id": "23jkk20",
+      "petId": "5adjw003",
+      "description": "Eat",
+      "scheduleTime": "2018-10-13 17:00:00"
+    },
+    {
+      "id": "23jkk21",
+      "petId": "5adjw002",
+      "description": "Walk",
+      "scheduleTime": "2018-10-13 19:00:00"
+    },
+    {
+      "id": "23jkk22",
+      "petId": "5adjw001",
+      "description": "Clean",
+      "scheduleTime": "2018-10-14 15:00:00"
+    }
+  ]
+}
