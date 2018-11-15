@@ -17,6 +17,10 @@ app.post('/pet', petService.postPet);
 
 app.get('/examinations', examinationService.getExaminations);
 app.get('/examination/:examId', examinationService.getExamination);
+app.get('/examinations/:petId', examinationService.getPetExaminations);
+app.delete('/examination/:examId', examinationService.deleteExamination);
+app.post('/examination', examinationService.postExamination);
+
 
 
 app.listen(3000, () => console.log('server started on 3000'));
