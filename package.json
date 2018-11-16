@@ -4,5 +4,8 @@
     "express": "~4.16.4",
     "body-parser": "^1.18.3",
     "uuid": "3.3.2"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
