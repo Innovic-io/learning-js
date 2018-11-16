@@ -7,25 +7,28 @@ const petsService = new PetsService();
 class ExaminationService{
     constructor(){}
 
-    getExaminations(){
+    async getExaminations(){
         return examinations;
     }
 
-    getSingleExamination(examId){
+    async getSingleExamination(examId){
         const singleExamination = examinations.find((el) => el.id === examId);
         return singleExamination;
     }
 
-    getExaminationsByPet(petId) {
-        const pets = petsService.getPets();
+    async getExaminationsByPet(petId) {
+        const pets = await petsService.getPets();
         const examinationsByPet = examinations.filter((el) => el.petId === petId);
         const pet = pets.find((el) => el.id === petId);
         const index = examinations.findIndex((el) => el.petId === petId);
-        examinationsByPet[index].pet = pet;
+
+        if(index >= 0) {
+            examinationsByPet[index].pet = pet;
+        }
         return examinationsByPet;
     }
 
-    deleteSingleExamination(examId) {
+    async deleteSingleExamination(examId) {
         const index = examinations.findIndex((el) => el.id === examId);
         if(index > -1) {
             examinations.splice(index, 1);
@@ -33,9 +36,9 @@ class ExaminationService{
         return examinations[index];
     }
 
-    addSingleExamination(newExamination) {
-        examinations.push(newExamination);
+    async addSingleExamination(newExamination) {
         newExamination.id = uuid();
+        examinations.push(newExamination);
         return newExamination;
     }
 

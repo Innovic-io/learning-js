@@ -2,19 +2,19 @@ const { pets } = require('../data.json');
 const uuid = require('uuid');
 
 
-class PetService {
+class PetsService {
     constructor(){}
 
-    getPets (){
+    async getPets (){
         return pets;
     };
 
-    getSinglePet (petId) {
+    async getSinglePet (petId) {
         const singlePet = pets.find((el) => el.id === petId);
         return singlePet;
     };
 
-    deleteSinglePet(petId) {
+    async deleteSinglePet(petId) {
         const index = pets.findIndex((el) => el.id === petId);
 
         if(index > -1) {
@@ -24,11 +24,11 @@ class PetService {
         }
     }
 
-    addSinglePet(newPet) {
+    async addSinglePet(newPet) {
         newPet.id = uuid();
         pets.push(newPet);
         return newPet;
     }
 }
 
-module.exports = PetService;
+module.exports = PetsService;

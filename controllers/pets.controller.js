@@ -6,14 +6,14 @@ module.exports = class PetsController {
         petService = new PetService();
     }
 
-    getPets(req, res) {
-        const allPets = petService.getPets();
+    async getPets(req, res) {
+        const allPets = await petService.getPets();
         res.status(200).json(allPets);
     }
 
-    getSinglePet(req, res) {
+    async getSinglePet(req, res) {
         const { petId } = req.params;
-        const singlePet = petService.getSinglePet(petId);
+        const singlePet = await petService.getSinglePet(petId);
 
         if(singlePet) {
             res.status(200).json(singlePet);
@@ -22,9 +22,9 @@ module.exports = class PetsController {
         }
     }
 
-    deleteSinglePet(req, res) {
+    async deleteSinglePet(req, res) {
         const { petId } = req.params;
-        const deletedPet = petService.deleteSinglePet(petId);
+        const deletedPet = await petService.deleteSinglePet(petId);
 
         if(deletedPet) {
             res.status(200).json(deletedPet);
@@ -33,9 +33,9 @@ module.exports = class PetsController {
         }
     }
 
-    addSinglePet(req, res) {
+    async addSinglePet(req, res) {
         const newPet = req.body;
-        const serviceResponse = petService.addSinglePet(newPet);
+        const serviceResponse = await petService.addSinglePet(newPet);
 
         res.status(201).json(serviceResponse);
     }

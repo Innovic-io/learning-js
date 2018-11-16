@@ -7,28 +7,28 @@ class ExaminationsController{
         examinationsService = new ExaminationsService();
     }
 
-    getExaminations(req, res) {
-        const examinations = examinationsService.getExaminations();
+    async getExaminations(req, res) {
+        const examinations = await examinationsService.getExaminations();
         res.status(200).json(examinations);
     }
 
-    getSingleExamination(req, res) {
+    async getSingleExamination(req, res) {
         const { examId }= req.params;
-        const singleExamination = examinationsService.getSingleExamination(examId);
+        const singleExamination = await examinationsService.getSingleExamination(examId);
 
         res.status(200).json(singleExamination);
     }
 
-    getExaminationsByPet (req, res) {
+    async getExaminationsByPet (req, res) {
         const petId = req.params.petId;
-        const examinationsByPet = examinationsService.getExaminationsByPet(petId);
+        const examinationsByPet = await examinationsService.getExaminationsByPet(petId);
 
         res.status(200).json(examinationsByPet);
     }
 
-    deleteSingleExamination(req, res) {
+    async deleteSingleExamination(req, res) {
         const examId = req.params.examId;
-        const deletedExamination = examinationsService.deleteSingleExamination(examId);
+        const deletedExamination = await examinationsService.deleteSingleExamination(examId);
         console.log(deletedExamination);
 
         if(deletedExamination) {
@@ -38,9 +38,9 @@ class ExaminationsController{
         }
     }
 
-    addSingleExamination(req, res) {
+    async addSingleExamination(req, res) {
         const newExamination = req.body;
-        const serviceResponse = examinationsService.addSingleExamination(newExamination);
+        const serviceResponse = await examinationsService.addSingleExamination(newExamination);
 
         res.status(201).json(serviceResponse);
     }
