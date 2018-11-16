@@ -1,7 +1,7 @@
 const PetService  = require('../services/pets.service');
 let petService;
 
-module.exports = class PetsControllers{
+module.exports = class PetsController {
     constructor(){
         petService = new PetService();
     }

@@ -1,48 +1,44 @@
-const { examinations: examinationsService, pets } = require('../data.json');
+const { examinations } = require('../data.json');
+const PetsService = require('./pets.service');
 const uuid = require('uuid');
+
+const petsService = new PetsService();
 
 class ExaminationService{
     constructor(){}
 
-    getExaminations(req, res) {
-        res.status(200).json(examinationsService);
+    getExaminations(){
+        return examinations;
     }
 
-    getSingleExamination(req, res){
-       const { examId } = req.params;
-       const exam = examinationsService.find((el) => el.id === examId);
-       const pet = pets.find((el) => el.id === exam.petId);
-       delete exam.petId;
-       exam.pet = pet;
-
-
-       res.status(200).json(exam);
+    getSingleExamination(examId){
+        const singleExamination = examinations.find((el) => el.id === examId);
+        return singleExamination;
     }
 
-    getExaminationsByPet(req, res){
-        const { petId } = req.params;
+    getExaminationsByPet(petId) {
+        const pets = petsService.getPets();
+        const examinationsByPet = examinations.filter((el) => el.petId === petId);
         const pet = pets.find((el) => el.id === petId);
-        const exams = examinationsService.filter((el) => el.petId === petId);
-        res.status(200).json(exams);
+        const index = examinations.findIndex((el) => el.petId === petId);
+        examinationsByPet[index].pet = pet;
+        return examinationsByPet;
     }
 
-    deleteExamination(req, res) {
-        const examId = req.params.examId;
-        const indexExam = examinationsService.findIndex((el) => el.id === examId);
-        if(indexExam > -1){
-            examinationsService.splice(indexExam, 1);
+    deleteSingleExamination(examId) {
+        const index = examinations.findIndex((el) => el.id === examId);
+        if(index > -1) {
+            examinations.splice(index, 1);
         }
-        console.log(indexExam);
-        res.status(200).json(examinationsService);
+        return examinations[index];
     }
 
-    addExamination(req, res){
-        const newExam = req.body;
-        newExam.id = uuid();
-
-        examinationsService.push(newExam);
-        res.status(201).json(examinationsService);
+    addSingleExamination(newExamination) {
+        examinations.push(newExamination);
+        newExamination.id = uuid();
+        return newExamination;
     }
+
 }
 
 module.exports = ExaminationService;
