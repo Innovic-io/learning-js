@@ -1,6 +1,8 @@
+const uuid = require('uuid');
+
 const { examinations } = require('../data.json');
 const PetsService = require('./pets.service');
-const uuid = require('uuid');
+const { deepCopy } = require("../helpers/helpers.functions");
 
 const petsService = new PetsService();
 
@@ -17,31 +19,38 @@ class ExaminationService{
     }
 
     async getExaminationsByPet(petId) {
-        const pets = await petsService.getPets();
-        const examinationsByPet = examinations.filter((el) => el.petId === petId);
-        const pet = pets.find((el) => el.id === petId);
-        const index = examinations.findIndex((el) => el.petId === petId);
-
-        if(index >= 0) {
-            examinationsByPet[index].pet = pet;
-        }
+        const pet = await petsService.getSinglePet(petId);
+        const examinationsCopy = deepCopy(examinations);
+        const examinationsByPet = examinationsCopy
+            .filter((el) => el.petId === petId)
+            .map((el) => {
+                delete el.petId;
+                return { ...el, pet};
+            });
         return examinationsByPet;
     }
 
     async deleteSingleExamination(examId) {
         const index = examinations.findIndex((el) => el.id === examId);
+
         if(index > -1) {
-            examinations.splice(index, 1);
+            const [ deletedExam ] = examinations.splice(index, 1);
+            return deletedExam;
         }
-        return examinations[index];
     }
 
     async addSingleExamination(newExamination) {
-        newExamination.id = uuid();
-        examinations.push(newExamination);
-        return newExamination;
-    }
+        const copy = deepCopy(newExamination)
+        const newPetId = copy.petId;
+        const pet = await petsService.getSinglePet(newPetId);
 
+        if(pet !== undefined) {
+            copy.id = uuid();
+            examinations.push(copy);
+            return copy;
+        }
+    }
 }
+
 
 module.exports = ExaminationService;

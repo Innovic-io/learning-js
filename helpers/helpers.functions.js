@@ -1,0 +1,1 @@
+module.exports.deepCopy = (toCopy) => JSON.parse(JSON.stringify(toCopy));

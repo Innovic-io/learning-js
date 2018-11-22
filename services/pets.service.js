@@ -1,5 +1,7 @@
-const { pets } = require('../data.json');
 const uuid = require('uuid');
+
+const { pets } = require('../data.json');
+const { deepCopy } = require("../helpers/helpers.functions");
 
 
 class PetsService {
@@ -25,9 +27,10 @@ class PetsService {
     }
 
     async addSinglePet(newPet) {
-        newPet.id = uuid();
-        pets.push(newPet);
-        return newPet;
+        const copy = deepCopy(newPet);
+        copy.id = uuid();
+        pets.push(copy);
+        return copy;
     }
 }
 

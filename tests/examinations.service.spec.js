@@ -16,10 +16,26 @@ const expect = async () => {
     const newExam = await examinationsService.addSingleExamination(objToAdd)
 
     const { id } = newExam;
-    assert.deepEqual(typeof id, "string")
-    assert.deepEqual(newExam, {...objToAdd, id})
-    assert.deepEqual(examinations[4], newExam)
-}
+    assert.deepEqual(typeof id, "string");
+    assert.deepStrictEqual(newExam, {...objToAdd, id});
+    assert.notDeepStrictEqual(newExam, objToAdd);
+    assert.deepEqual(examinations[4], newExam);
+
+    const examId = '23jkk20';
+    const element = examinations.find((el) => el.id === examId)
+    const delExam = await examinationsService.deleteSingleExamination(examId);
+    const index = examinations.findIndex((el) => el.id === examId)
+
+
+    assert.deepStrictEqual(delExam, element);
+    assert.strictEqual(index, -1);
+
+    const delExam2 = await examinationsService.deleteSingleExamination(examId);
+
+    assert.strictEqual(delExam2, undefined)
+
+
+};
 
 expect();
 
