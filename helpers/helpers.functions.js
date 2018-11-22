@@ -1,1 +1,12 @@
-module.exports.deepCopy = (toCopy) => JSON.parse(JSON.stringify(toCopy));
+const uuid = require('uuid');
+const deepCopy = (toCopy) => JSON.parse(JSON.stringify(toCopy))
+
+module.exports.deepCopy = deepCopy;
+
+module.exports.addIdPushAndReturn = (obj, objects) => {
+    const copy = deepCopy(obj);
+    copy.id = uuid();
+    objects.push(copy);
+    return copy;
+};
+

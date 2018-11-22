@@ -1,10 +1,8 @@
 const ExaminationsService = require('../services/examinations.service');
-
 let examinationsService;
-
 class ExaminationsController{
     constructor() {
-        examinationsService = new ExaminationsService();
+            examinationsService = new ExaminationsService();
     }
 
     async getExaminations(req, res) {
@@ -13,24 +11,19 @@ class ExaminationsController{
     }
 
     async getSingleExamination(req, res) {
-        const { examId }= req.params;
-        const singleExamination = await examinationsService.getSingleExamination(examId);
+        const singleExamination = await examinationsService.getSingleExamination(req.params.examId);
 
         res.status(200).json(singleExamination);
     }
 
     async getExaminationsByPet (req, res) {
-        const petId = req.params.petId;
-        const examinationsByPet = await examinationsService.getExaminationsByPet(petId);
+        const examinationsByPet = await examinationsService.getExaminationsByPet(req.params.petId);
 
         res.status(200).json(examinationsByPet);
     }
 
     async deleteSingleExamination(req, res) {
-        const examId = req.params.examId;
-        const deletedExamination = await examinationsService.deleteSingleExamination(examId);
-        console.log(deletedExamination);
-
+        const deletedExamination = await examinationsService.deleteSingleExamination(req.params.examId);
         if(deletedExamination) {
             res.status(200).json(deletedExamination);
         } else {
@@ -39,8 +32,7 @@ class ExaminationsController{
     }
 
     async addSingleExamination(req, res) {
-        const newExamination = req.body;
-        const serviceResponse = await examinationsService.addSingleExamination(newExamination);
+        const serviceResponse = await examinationsService.addSingleExamination(req.body);
 
         res.status(201).json(serviceResponse);
     }

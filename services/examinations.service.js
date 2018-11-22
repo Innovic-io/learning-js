@@ -1,26 +1,28 @@
 const uuid = require('uuid');
-
 const { examinations } = require('../data.json');
 const PetsService = require('./pets.service');
 const { deepCopy } = require("../helpers/helpers.functions");
+const { addIdPushAndReturn } = require('../helpers/helpers.functions')
 
 const petsService = new PetsService();
 
 class ExaminationService{
-    constructor(){}
+    constructor(sentExaminations) {
+        this.serviceExaminations = sentExaminations || examinations;
+    }
 
     async getExaminations(){
-        return examinations;
+        return this.serviceExaminations;
     }
 
     async getSingleExamination(examId){
-        const singleExamination = examinations.find((el) => el.id === examId);
+        const singleExamination = this.serviceExaminations.find((el) => el.id === examId);
         return singleExamination;
     }
 
     async getExaminationsByPet(petId) {
         const pet = await petsService.getSinglePet(petId);
-        const examinationsCopy = deepCopy(examinations);
+        const examinationsCopy = deepCopy(this.serviceExaminations);
         const examinationsByPet = examinationsCopy
             .filter((el) => el.petId === petId)
             .map((el) => {
@@ -31,23 +33,20 @@ class ExaminationService{
     }
 
     async deleteSingleExamination(examId) {
-        const index = examinations.findIndex((el) => el.id === examId);
+        const index = this.serviceExaminations.findIndex((el) => el.id === examId);
 
         if(index > -1) {
-            const [ deletedExam ] = examinations.splice(index, 1);
+            const [ deletedExam ] = this.serviceExaminations.splice(index, 1);
             return deletedExam;
         }
     }
 
     async addSingleExamination(newExamination) {
-        const copy = deepCopy(newExamination)
-        const newPetId = copy.petId;
+        const newPetId = newExamination.petId;
         const pet = await petsService.getSinglePet(newPetId);
 
         if(pet !== undefined) {
-            copy.id = uuid();
-            examinations.push(copy);
-            return copy;
+            return addIdPushAndReturn(newExamination, this.serviceExaminations);
         }
     }
 }

@@ -1,6 +1,6 @@
 const PetService  = require('../services/pets.service');
-let petService;
 
+let petService;
 module.exports = class PetsController {
     constructor(){
         petService = new PetService();
@@ -12,19 +12,12 @@ module.exports = class PetsController {
     }
 
     async getSinglePet(req, res) {
-        const { petId } = req.params;
-        const singlePet = await petService.getSinglePet(petId);
-
-        if(singlePet) {
-            res.status(200).json(singlePet);
-        } else {
-            res.status(204);
-        }
+        const singlePet = await petService.getSinglePet(req.params.petId);
+        res.status(200 + +(!singlePet)*4).json(singlePet);
     }
 
     async deleteSinglePet(req, res) {
-        const { petId } = req.params;
-        const deletedPet = await petService.deleteSinglePet(petId);
+        const deletedPet = await petService.deleteSinglePet(req.params.petId);
 
         if(deletedPet) {
             res.status(200).json(deletedPet);
@@ -34,9 +27,15 @@ module.exports = class PetsController {
     }
 
     async addSinglePet(req, res) {
-        const newPet = req.body;
-        const serviceResponse = await petService.addSinglePet(newPet);
+        const serviceResponse = await petService.addSinglePet(req.body);
 
         res.status(201).json(serviceResponse);
     }
+
+    async updateSinglePet(req, res) {
+        const serviceResponse = await petService.updateSinglePet(req.params.petId, req.body);
+
+        res.status(201).json(serviceResponse);
+    }
+
 }

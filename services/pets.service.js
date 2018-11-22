@@ -1,36 +1,41 @@
 const uuid = require('uuid');
+const { addIdPushAndReturn } = require("../helpers/helpers.functions");
 
 const { pets } = require('../data.json');
 const { deepCopy } = require("../helpers/helpers.functions");
 
 
 class PetsService {
-    constructor(){}
+    constructor(sentPets) {
+        this.pets = sentPets || pets
+    }
 
     async getPets (){
-        return pets;
+        return this.pets;
     };
 
     async getSinglePet (petId) {
-        const singlePet = pets.find((el) => el.id === petId);
+        const singlePet = this.pets.find((el) => el.id === petId);
         return singlePet;
     };
 
     async deleteSinglePet(petId) {
-        const index = pets.findIndex((el) => el.id === petId);
+        const index = this.pets.findIndex((el) => el.id === petId);
 
         if(index > -1) {
-            const deletedPet = pets[index];
+            const deletedPet = this.pets[index];
             pets.splice(index, 1);
             return deletedPet;
         }
     }
 
     async addSinglePet(newPet) {
-        const copy = deepCopy(newPet);
-        copy.id = uuid();
-        pets.push(copy);
-        return copy;
+        return addIdPushAndReturn(newPet, this.pets);
+    }
+
+    async updateSinglePet(petId, body) {
+        const pet = this.pets.find((el) => el.id === petId);
+        return pet && Object.assign(pet, body);
     }
 }
 

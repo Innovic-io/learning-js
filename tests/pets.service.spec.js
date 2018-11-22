@@ -5,15 +5,10 @@ const {pets} = require('../data');
 const petsService = new PetsService();
 
 const test = async () => {
-    assert(petsService.getPets(), []);
-    assert(petsService.addSinglePet({}), {});
-    assert(petsService.deleteSinglePet(231), {});
-    assert(petsService.getSinglePet(213), {});
-
-    assert(petsService.getPets(), {});
-    assert(petsService.addSinglePet({}), {});
-    assert(petsService.deleteSinglePet({}), {});
-    assert(petsService.getSinglePet({}), {});
+    assert.strictEqual(petsService.getPets() instanceof Promise, true);
+    assert.strictEqual(petsService.addSinglePet({}) instanceof Promise, true);
+    assert.strictEqual(petsService.deleteSinglePet(231) instanceof Promise, true);
+    assert.strictEqual(petsService.getSinglePet(213) instanceof Promise, true);
 
     const getPets = await petsService.getPets();
     assert(getPets, pets);
