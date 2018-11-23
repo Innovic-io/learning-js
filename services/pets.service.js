@@ -1,8 +1,6 @@
-const uuid = require('uuid');
 const { addIdPushAndReturn } = require("../helpers/helpers.functions");
 
 const { pets } = require('../data.json');
-const { deepCopy } = require("../helpers/helpers.functions");
 
 
 class PetsService {
@@ -24,7 +22,7 @@ class PetsService {
 
         if(index > -1) {
             const deletedPet = this.pets[index];
-            pets.splice(index, 1);
+            this.pets.splice(index, 1);
             return deletedPet;
         }
     }

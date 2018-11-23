@@ -1,4 +1,3 @@
-const uuid = require('uuid');
 const { examinations } = require('../data.json');
 const PetsService = require('./pets.service');
 const { deepCopy } = require("../helpers/helpers.functions");
@@ -48,6 +47,11 @@ class ExaminationService{
         if(pet !== undefined) {
             return addIdPushAndReturn(newExamination, this.serviceExaminations);
         }
+    }
+
+    async updateSingleExamination(examId, body) {
+        const examination = this.serviceExaminations.find((el) => el.id === examId);
+        return examination && Object.assign(examination, body);
     }
 }
 
