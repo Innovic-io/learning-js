@@ -21,14 +21,15 @@ class ExaminationService{
 
     async getExaminationsByPet(petId) {
         const pet = await petsService.getSinglePet(petId);
-        const examinationsCopy = deepCopy(this.serviceExaminations);
-        const examinationsByPet = examinationsCopy
-            .filter((el) => el.petId === petId)
-            .map((el) => {
-                delete el.petId;
-                return { ...el, pet};
-            });
-        return examinationsByPet;
+        if (pet) {
+            const examinationsCopy = deepCopy(this.serviceExaminations);
+            return examinationsCopy
+                .filter((el) => el.petId === petId)
+                .map((el) => {
+                    delete el.petId;
+                    return {...el, pet};
+                });
+        }
     }
 
     async deleteSingleExamination(examId) {

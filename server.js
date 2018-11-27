@@ -24,6 +24,7 @@ app.delete('/examination/:examId', examinationsController.deleteSingleExaminatio
 app.get('/examinations/pet/:petId', examinationsController.getExaminationsByPet);
 app.post('/examination', DTO, TypeTransformer, examinationsController.addSingleExamination);
 
-app.listen(3000, () => console.log('server started on 3000'));
-
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(3000, () => console.log('server started on 3000'));
+}
 module.exports = app
