@@ -16,7 +16,7 @@ describe('Unit test for examination service', () => {
         assert.deepStrictEqual(exp, examinations);
     });
 
-    it('should get single examination when id is right', async () => {
+    it('should get single examination if id is right', async () => {
         const examId = examinations.find((el) => el.id);
 
         const index = examinations.findIndex((el) => el.id === examId);
@@ -25,7 +25,7 @@ describe('Unit test for examination service', () => {
         assert.deepStrictEqual(examinations[index], singleExam);
     });
 
-    it('should return undefined when id is wrong', async () => {
+    it('should return undefined if id is wrong', async () => {
         const examId = examinations.find((el) => !el.id)
 
         const singleExamination = await examinationsService.getSingleExamination(examId);
@@ -33,7 +33,7 @@ describe('Unit test for examination service', () => {
         assert.strictEqual(undefined, singleExamination);
     });
 
-    it('should get all examinations by pet when pet id is right', async () => {
+    it('should get all examinations by pet if pet id is right', async () => {
         const { petId } = examinations.find((el) => el.petId);
 
         const examinationsByPet = await examinationsService.getExaminationsByPet(petId)
@@ -44,14 +44,14 @@ describe('Unit test for examination service', () => {
         assert.deepStrictEqual(examinationsByPet, [ expectedExaminationsByPet ]);
     });
 
-    it('should return undefined examinations by pet when id is wrong', async () => {
+    it('should return undefined examinations by pet if id is wrong', async () => {
         const petId = examinations.find((el) => !el.petId);
 
         const examinationsByPet = await examinationsService.getExaminationsByPet(petId);
         assert.strictEqual(examinationsByPet, undefined);
     });
 
-    it('should delete examination properly when id is right', async () => {
+    it('should delete examination properly if id is right', async () => {
         const examination = examinations.find((el) => el)
         const examId = examination.id;
 
@@ -65,34 +65,63 @@ describe('Unit test for examination service', () => {
         assert.strictEqual(delExam2, undefined)
     });
 
-    it('should not delete anything and return undefined examination when id is wrong', async () => {
+    it('should not delete anything and return undefined examination if id is wrong', async () => {
+        const newExaminations = deepCopy(examinations);
+        const wrongId = newExaminations.find((el) => !el.id);
 
+        const delExam = await examinationsService.deleteSingleExamination(wrongId);
+
+        assert.deepStrictEqual(newExaminations, examinations);
+        assert.strictEqual(delExam, undefined);
     });
 
-    it('should update examination', async () => {
-        const examId = '23jkk20';
+    it('should add new examination properly if does not already exist exactly same examination and if the pet ID is right' , async () => {
+        const objToAdd = {
+            petId: "5adjw003",
+            description: "Mangia",
+            scheduleTime: "2018-10-13 15:00:00"
+        };
+        const newExam = await examinationsService.addSingleExamination(objToAdd);
+
+        const { id } = newExam;
+
+        assert.strictEqual(typeof id, 'string');
+        assert.deepStrictEqual(newExam, {...objToAdd, id});
+        assert.deepEqual(examinations[examinations.length - 1], newExam);
+    });
+
+    it('should not add new examination if pet ID is wrong', async () => {
+        const objToAdd = {
+            petId: "as",
+            description: "Mangia",
+            scheduleTime: "2018-10-13 15:00:00"
+        };
+        const newExam = await examinationsService.addSingleExamination(objToAdd);
+
+        assert.strictEqual(newExam, undefined);
+        assert.notDeepStrictEqual(newExam, examinations[examinations.length -1]);
+    });
+
+    it('should update examination when id is right', async () => {
+        const examId = examinations.find((el) => el).id;
         const body = {
             description: 'Eateat'
         };
 
         const examination = examinations.find((el) => el.id === examId);
         const updatedExamination = await examinationsService.updateSingleExamination(examId, body);
+
         assert.deepStrictEqual(examination, updatedExamination);
     });
 
-    it('should add new examination properly', async () => {
-        const objToAdd = {
-            petId: "5adjw003",
-            description: "Run 123",
-            scheduleTime: "2018-10-13 17:00:00"
+    it('should not update anything when id is wrong', async () => {
+        const examId = undefined;
+        const body = {
+            description: 'Mangia, mangia'
         };
-        const newExam = await examinationsService.addSingleExamination(objToAdd);
+        const newExaminations = deepCopy(examinations);
+        await examinationsService.updateSingleExamination(examId, body);
 
-        const { id } = newExam;
-        assert.strictEqual(typeof id, 'string');
-        assert.deepStrictEqual(newExam, {...objToAdd, id});
-        assert.notDeepStrictEqual(newExam, objToAdd);
-        assert.deepEqual(examinations[examinations.length - 1], newExam);
-    })
-
+        assert.deepStrictEqual(newExaminations, examinations);
+    });
 });

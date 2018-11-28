@@ -3,11 +3,13 @@ const assert = require('assert');
 
 const PetsService = require('../services/pets.service');
 const { pets } = require('../data');
+const { deepCopy } = require('../helpers/helpers.functions');
 
 describe('Unit test for pets service', () => {
+    let petsService;
     beforeEach(() => {
         petsService = new PetsService(pets);
-    })
+    });
 
     it('should get all pets', async () => {
         assert.strictEqual(petsService.getPets() instanceof Promise, true);
@@ -16,18 +18,43 @@ describe('Unit test for pets service', () => {
         assert(getPets, pets);
     });
 
-    it('should get single pet', async () => {
+    it('should get single pet if the ID is right', async () => {
         assert.strictEqual(petsService.getSinglePet(213) instanceof Promise, true);
-
         const singlePetWrong = await petsService.getSinglePet();
-
         assert.deepEqual(singlePetWrong, undefined);
 
-        const petId = '5adjw001';
+        const petId = pets.find((el) => el).id;
         const singlePetRight = await petsService.getSinglePet(petId);
-        const singlePetIndex = pets.findIndex((el) => el.id = petId);
+        const singlePetIndex = pets.findIndex((el) => el.id === petId);
 
         assert.deepEqual(singlePetRight, pets[singlePetIndex])
+    });
+
+    it('should return undefined if the ID is wrong', async () => {
+        const petId = undefined;
+        const singlePet = await petsService.getSinglePet(petId);
+
+        assert.strictEqual(singlePet, undefined);
+    });
+
+    it('should delete single pet if the ID is right', async () => {
+        assert.strictEqual(petsService.deleteSinglePet(231) instanceof Promise, true);
+
+        const pet = pets.find((el) => el);
+        const delPet = await petsService.deleteSinglePet(pet.id);
+        const petIndex = pets.findIndex((el) => el.id === pet.id);
+
+        assert.deepStrictEqual(pet, delPet);
+        assert.strictEqual(petIndex, -1);
+    });
+
+    it('should not delete any pet if the ID is wrong', async () => {
+        const petId = undefined;
+        const newPets = deepCopy(pets);
+        const delPet = await petsService.deleteSinglePet(petId);
+
+        assert.strictEqual(delPet, undefined);
+        assert.deepStrictEqual(newPets, pets)
     });
 
     it('should add new pet', async () => {
@@ -49,19 +76,8 @@ describe('Unit test for pets service', () => {
         assert.notDeepStrictEqual(newPet, pets);
     });
 
-    it('should delete single pet', async () => {
-        assert.strictEqual(petsService.deleteSinglePet(231) instanceof Promise, true);
-
-        const petId = '5adjw001';
-        const pet = pets.find((el) => el.id === petId);
-        const delPet = await petsService.deleteSinglePet(petId);
-        const petIndex = pets.findIndex((el) => el.id === petId);
-        assert.deepStrictEqual(pet, delPet);
-        assert.strictEqual(petIndex, -1);
-    });
-
-    it('should update single pet', async () => {
-        const petId = '5adjw002';
+    it('should update single pet if the ID is right', async () => {
+        const petId = pets.find((el) => el).id;
         const body = {
             owner: 'Pejr',
             age: 2.7
@@ -69,6 +85,19 @@ describe('Unit test for pets service', () => {
         const pet = pets.find((el) => el.id === petId);
         const updatedPet = await petsService.updateSinglePet(petId, body);
         assert.deepStrictEqual(pet, updatedPet);
+    });
+
+    it('should not update any pet if the ID is wrong', async () => {
+        const petId = undefined;
+        const body = {
+            owner: 'Pejr',
+            age: 2.7
+        };
+        const newPets = deepCopy(pets);
+        const updatedPet = await petsService.updateSinglePet(petId, body);
+
+        assert.deepStrictEqual(updatedPet, undefined);
+        assert.deepStrictEqual(newPets, pets);
     });
 
 });

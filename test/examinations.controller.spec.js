@@ -42,7 +42,7 @@ describe('Unit test for examination controller', () => {
 
         assert.deepStrictEqual(existed, res.body);
     });
-    it('should add single examination', async () => {
+    /*it('should add single examination', async () => {
         const oldExaminations = deepCopy(examinations);
         const examToAdd = {
             petId: '5adjw003',
@@ -55,7 +55,7 @@ describe('Unit test for examination controller', () => {
             .expect(201);
         oldExaminations.push(res.body);
         assert.deepStrictEqual(examinations, oldExaminations)
-    });
+    }); */
     it('should update single examination', async () => {
         const featureToAdd = {description: 'Trojo'};
         const existed = examinations.find((el) => el.id);
