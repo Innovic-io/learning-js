@@ -45,7 +45,7 @@ describe('Unit test for examination service', () => {
     });
 
     it('should return undefined examinations by pet if id is wrong', async () => {
-        const petId = examinations.find((el) => !el.petId);
+        const petId = 3242334324;
 
         const examinationsByPet = await examinationsService.getExaminationsByPet(petId);
         assert.strictEqual(examinationsByPet, undefined);
@@ -115,7 +115,7 @@ describe('Unit test for examination service', () => {
     });
 
     it('should not update anything when id is wrong', async () => {
-        const examId = undefined;
+        const examId = 23432432432;
         const body = {
             description: 'Mangia, mangia'
         };

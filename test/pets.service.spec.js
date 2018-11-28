@@ -31,7 +31,7 @@ describe('Unit test for pets service', () => {
     });
 
     it('should return undefined if the ID is wrong', async () => {
-        const petId = undefined;
+        const petId = 6776655656;
         const singlePet = await petsService.getSinglePet(petId);
 
         assert.strictEqual(singlePet, undefined);
@@ -49,7 +49,7 @@ describe('Unit test for pets service', () => {
     });
 
     it('should not delete any pet if the ID is wrong', async () => {
-        const petId = undefined;
+        const petId = 433444544;
         const newPets = deepCopy(pets);
         const delPet = await petsService.deleteSinglePet(petId);
 
@@ -88,7 +88,7 @@ describe('Unit test for pets service', () => {
     });
 
     it('should not update any pet if the ID is wrong', async () => {
-        const petId = undefined;
+        const petId = 2332324343;
         const body = {
             owner: 'Pejr',
             age: 2.7
