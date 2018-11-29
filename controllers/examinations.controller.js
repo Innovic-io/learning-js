@@ -1,4 +1,5 @@
-const ExaminationsService = require('../services/examinations.service')
+const ExaminationsService = require('../services/examinations.service');
+const { EXAMINATION_EXIST_ERROR } = require("../helpers/constants");
 
 let examinationsService;
 class ExaminationsController{
@@ -38,22 +39,31 @@ class ExaminationsController{
         if(deletedExamination) {
             res.status(200).json(deletedExamination);
         } else {
-            res.status(400).json({error: 'Examination does not exist!'});
+            res.status(400).json(EXAMINATION_EXIST_ERROR);
         }
     }
 
     async addSingleExamination(req, res) {
-        const serviceResponse = await examinationsService.addSingleExamination(req.body);
+        try {
+            const serviceResponse = await examinationsService.addSingleExamination(req.body);
 
-        if(serviceResponse) {
-            res.status(201).json(serviceResponse);
+            if(serviceResponse) {
+                res.status(201).json(serviceResponse);
+            }
+        }
+         catch(err) {
+            res.status(400).json(err)
         }
     }
 
     async updateSingleExamination(req, res) {
-        const updateResponse = await examinationsService.updateSingleExamination(req.params.examId, req.body);
+        try {
+            const updateResponse = await examinationsService.updateSingleExamination(req.params.examId, req.body);
 
-        res.status(200).json(updateResponse);
+            res.status(200).json(updateResponse);
+        } catch (error) {
+            res.status(400).json(error)
+        }
     }
 }
 

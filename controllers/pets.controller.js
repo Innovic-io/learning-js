@@ -1,4 +1,5 @@
 const PetService  = require('../services/pets.service');
+const { PET_EXIST_ERROR }= require("../helpers/constants");
 
 let petService;
 module.exports = class PetsController {
@@ -27,7 +28,7 @@ module.exports = class PetsController {
         if(deletedPet) {
             res.status(200).json(deletedPet);
         } else {
-            res.status(400).json({error: 'Pet does not exist'})
+            res.status(400).json(PET_EXIST_ERROR)
         }
     }
 

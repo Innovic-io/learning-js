@@ -1,18 +1,14 @@
+const { FEATURES, ALLOWED_FEATURES_ERROR, REQUIRED_FEATURES_ERROR } = require("../helpers/constants");
+
 module.exports = (req, res, next) => {
-    const expected = {
-        pet: ['name', 'age', 'breed', 'status', 'tags'],
-        examination: [ 'petId', 'description', 'scheduleTime']
-    };
     const {body: sentPet} = req;
     const [ ,type ]= req.originalUrl.split('/');
-    if (Object.keys(sentPet).filter((key) => !expected[type].includes(key)).length > 0) {
-        return res.status(400).json({error: `Only ${expected[type].join(', ')} are allowed.`});
+    if (Object.keys(sentPet).some((key) => !FEATURES[type].includes(key))) {
+        return res.status(400).json(ALLOWED_FEATURES_ERROR(type));
     }
-    if (req.method === 'POST' && expected[type].filter((key) => !sentPet[key]).length > 0) {
+    if (req.method === 'POST' && FEATURES[type].some((key) => !sentPet[key])) {
         return res.status(400)
-            .json({
-                error: `${expected[type].slice(0, expected[type].length - 1).join(', ')} and ${expected[type][expected[type].length-1]} are required`
-            });
+            .json(REQUIRED_FEATURES_ERROR(type));
     }
     return next();
 };

@@ -44,8 +44,10 @@ class ExaminationService{
         const newPetId = newExamination.petId;
         const pet = await petsService.getSinglePet(newPetId);
 
-        if(pet !== undefined) {
+        if(pet) {
             return addIdPushAndReturn(newExamination, this.serviceExaminations);
+        } else {
+            throw { error: 'Pet with that ID does not exist.' } ;
         }
     }
 

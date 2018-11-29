@@ -2,6 +2,7 @@ require('mocha');
 const assert = require('assert');
 
 const ExaminationsService = require('../services/examinations.service');
+const { PET_EXIST_ERROR } = require("../helpers/constants");
 const { examinations, pets } = require('../data');
 const { deepCopy } = require('../helpers/helpers.functions');
 
@@ -75,7 +76,7 @@ describe('Unit test for examination service', () => {
         assert.strictEqual(delExam, undefined);
     });
 
-    it('should add new examination properly if does not already exist exactly same examination and if the pet ID is right' , async () => {
+    it('should add new examination properly if the pet ID is right' , async () => {
         const objToAdd = {
             petId: "5adjw003",
             description: "Mangia",
@@ -96,10 +97,9 @@ describe('Unit test for examination service', () => {
             description: "Mangia",
             scheduleTime: "2018-10-13 15:00:00"
         };
-        const newExam = await examinationsService.addSingleExamination(objToAdd);
+        await examinationsService.addSingleExamination(objToAdd)
+            .catch((error) => assert.deepStrictEqual(error, PET_EXIST_ERROR));
 
-        assert.strictEqual(newExam, undefined);
-        assert.notDeepStrictEqual(newExam, examinations[examinations.length -1]);
     });
 
     it('should update examination when id is right', async () => {
