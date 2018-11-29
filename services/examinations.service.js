@@ -1,7 +1,7 @@
 const { examinations } = require('../data.json');
 const PetsService = require('./pets.service');
 const { deepCopy } = require("../helpers/helpers.functions");
-const { addIdPushAndReturn } = require('../helpers/helpers.functions')
+const { addIdPushAndReturn } = require('../helpers/helpers.functions');
 
 const petsService = new PetsService();
 
@@ -15,8 +15,7 @@ class ExaminationService{
     }
 
     async getSingleExamination(examId){
-        const singleExamination = this.serviceExaminations.find((el) => el.id === examId);
-        return singleExamination;
+        return this.serviceExaminations.find((el) => el.id === examId);
     }
 
     async getExaminationsByPet(petId) {

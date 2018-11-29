@@ -2,7 +2,7 @@ require('mocha');
 const request = require('supertest');
 const app = require('../server');
 const assert = require('assert');
-const { deepCopy } = require('../helpers/helpers.functions')
+const { deepCopy } = require('../helpers/helpers.functions');
 
 const { examinations, pets } = require('../data');
 
@@ -11,7 +11,7 @@ describe('Unit test for examination controller', () => {
         const res = await request(app)
             .get('/examinations')
             .expect(examinations)
-            .expect(200)
+            .expect(200);
         assert.equal(res.body.length, examinations.length);
     });
 
@@ -19,7 +19,7 @@ describe('Unit test for examination controller', () => {
         const existing = examinations.find((el) => el.id);
         const res = await request(app)
             .get(`/examination/${existing.id}`)
-            .expect(200)
+            .expect(200);
 
         assert.deepStrictEqual(res.body, existing);
     });
@@ -28,7 +28,7 @@ describe('Unit test for examination controller', () => {
         const examId = 2121232321321;
         const res = await request(app)
             .get(`/examination/${examId}`)
-            .expect(204)
+            .expect(204);
         assert.deepStrictEqual(res.body, {})
     });
 
@@ -39,8 +39,7 @@ describe('Unit test for examination controller', () => {
         const res = await request(app)
             .get(`/examinations/pet/${existing.petId}`)
             .expect(200);
-        const expPet = existing.pet = pets.find((el) => el.id === existing.petId);
-        existing.pet = expPet;
+        existing.pet = existing.pet = pets.find((el) => el.id === existing.petId);
         delete(existing.petId);
 
         assert.deepStrictEqual(res.body, [ existing ]);

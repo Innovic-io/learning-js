@@ -11,7 +11,7 @@ describe('Unit test for pets controller', () => {
         const res = await request(app)
             .get('/pets')
             .expect(pets)
-            .expect(200)
+            .expect(200);
         assert.strictEqual(res.body.length, pets.length)
     });
 
@@ -66,8 +66,8 @@ describe('Unit test for pets controller', () => {
         const res = await request(app)
             .post('/pet')
             .send(petToAdd)
-            .expect(201)
-        oldPets.push(res.body)
+            .expect(201);
+        oldPets.push(res.body);
         assert.deepStrictEqual(pets, oldPets)
     });
 
@@ -77,13 +77,13 @@ describe('Unit test for pets controller', () => {
             "tags" : 3,
         };
         const petToUpdate = pets.find((el) => el);
-        const oldPet = deepCopy(petToUpdate)
+        const oldPet = deepCopy(petToUpdate);
         const petId = petToUpdate.id;
 
         const res = await request(app)
             .put(`/pet/${petId}`)
             .send(body)
-            .expect(201)
+            .expect(201);
 
         assert.notDeepStrictEqual(res.body, oldPet);
     });

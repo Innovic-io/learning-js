@@ -3,7 +3,7 @@ const assert = require('assert');
 
 const ExaminationsService = require('../services/examinations.service');
 const { examinations, pets } = require('../data');
-const { deepCopy } = require('../helpers/helpers.functions')
+const { deepCopy } = require('../helpers/helpers.functions');
 
 describe('Unit test for examination service', () => {
     let examinationsService;
@@ -26,7 +26,7 @@ describe('Unit test for examination service', () => {
     });
 
     it('should return undefined if id is wrong', async () => {
-        const examId = examinations.find((el) => !el.id)
+        const examId = examinations.find((el) => !el.id);
 
         const singleExamination = await examinationsService.getSingleExamination(examId);
 
@@ -36,7 +36,7 @@ describe('Unit test for examination service', () => {
     it('should get all examinations by pet if pet id is right', async () => {
         const { petId } = examinations.find((el) => el.petId);
 
-        const examinationsByPet = await examinationsService.getExaminationsByPet(petId)
+        const examinationsByPet = await examinationsService.getExaminationsByPet(petId);
         const expectedExaminationsByPet =  deepCopy(examinations.find((el) => el.petId === petId));
         expectedExaminationsByPet.pet = pets.find((el) => el.id === petId);
         delete expectedExaminationsByPet.petId;
@@ -52,7 +52,7 @@ describe('Unit test for examination service', () => {
     });
 
     it('should delete examination properly if id is right', async () => {
-        const examination = examinations.find((el) => el)
+        const examination = examinations.find((el) => el);
         const examId = examination.id;
 
         const delExam = await examinationsService.deleteSingleExamination(examId);
