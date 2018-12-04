@@ -8,13 +8,13 @@ class ExaminationsController{
     }
 
     async getExaminations(req, res) {
-        const examinations = await examinationsService.getExaminations();
+        const examinations = await examinationsService.getExaminations(req.query);
 
         res.status(200).json(examinations);
     }
 
     async getSingleExamination(req, res) {
-        const singleExamination = await examinationsService.getSingleExamination(req.params.examId);
+        const singleExamination = await examinationsService.getSingleExamination(req.params.examId, req.query);
 
         if(singleExamination !== undefined) {
             res.status(200).json(singleExamination);
@@ -34,7 +34,7 @@ class ExaminationsController{
     }
 
     async deleteSingleExamination(req, res) {
-        const deletedExamination = await examinationsService.deleteSingleExamination(req.params.examId);
+        const deletedExamination = await examinationsService.deleteSingleExamination(req.params.examId, req.query);
 
         if(deletedExamination) {
             res.status(200).json(deletedExamination);

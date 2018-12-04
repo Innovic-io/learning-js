@@ -10,3 +10,6 @@ module.exports.addIdPushAndReturn = (obj, objects) => {
     return copy;
 };
 
+module.exports.getKeys = (element, fieldsArray) => Object.assign({}, ...Object.keys(element)
+    .filter((el) => fieldsArray.includes(el))
+    .map((remainingKey) => ({[remainingKey]: element[remainingKey]})));
