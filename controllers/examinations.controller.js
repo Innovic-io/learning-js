@@ -24,7 +24,7 @@ class ExaminationsController{
     }
 
     async getExaminationsByPet (req, res) {
-        const examinationsByPet = await examinationsService.getExaminationsByPet(req.params.petId);
+        const examinationsByPet = await examinationsService.getExaminationsByPet(req.params.petId, req.query);
 
         if(examinationsByPet !== undefined) {
             res.status(200).json(examinationsByPet);
