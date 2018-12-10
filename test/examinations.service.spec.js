@@ -10,9 +10,11 @@ const { deepCopy } = require('../helpers/helpers.functions');
 describe('Unit test for examination service', () => {
     let examinationsService;
     let examinationsCopy;
+    let petsCopy;
 
     beforeEach(() => {
-        examinationsCopy = deepCopy(examinations)
+        petsCopy = deepCopy(pets);
+        examinationsCopy = deepCopy(examinations);
         examinationsService = new ExaminationsService(examinationsCopy);
     });
 
@@ -23,12 +25,20 @@ describe('Unit test for examination service', () => {
             assert.deepStrictEqual(exp, examinationsCopy);
         });
 
-        it('should get only desired fields of an examinations', async () => {
+        it('should get only desired fields of all examinations', async () => {
             const query = { fields: 'description' };
             const actual = await examinationsService.getExaminations(query);
             const expected = examinationsCopy.map((el) => getKeys(el, query.fields));
             
             assert.deepStrictEqual(actual, expected)
+        });
+
+        it('should get sorted examinations', async () => {
+            const query = { sort: 'description'};
+            const actual = await examinationsService.getExaminations(query);
+            const expected = examinationsCopy.sort((a, b) => a[query.sort].toString().localeCompare(b[query.sort].toString()));
+
+            assert.deepStrictEqual(actual, expected);
         });
 
         it('should get single examination if id is right', async () => {
@@ -38,6 +48,17 @@ describe('Unit test for examination service', () => {
             const singleExam = await examinationsService.getSingleExamination(examId);
 
             assert.deepStrictEqual(examinationsCopy[index], singleExam);
+        });
+
+        it('should get desired fields of an examination if id is right', async () => {
+            const singleExamination = examinationsCopy.find((el) => el);
+            const query = { fields: 'description'};
+            const actual = await examinationsService.getSingleExamination(singleExamination.id, query);
+            const expected = Object.assign({}, ...Object.keys(singleExamination)
+                .filter((el) => query.fields.includes(el))
+                .map((el) => ({[el]: singleExamination[el]})));
+
+            assert.deepStrictEqual(actual, expected);
         });
 
         it('should return undefined if id is wrong', async () => {
@@ -51,16 +72,46 @@ describe('Unit test for examination service', () => {
         it('should get all examinations by pet if pet id is right', async () => {
             const { petId } = examinationsCopy.find((el) => el.petId);
 
-            const examinationsByPet = await examinationsService.getExaminationsByPet(petId);
+            const actualExaminationsByPet = await examinationsService.getExaminationsByPet(petId);
             const expectedExaminationsByPet =  examinationsCopy.filter((el) => el.petId === petId);
 
             expectedExaminationsByPet
                 .map((el) => {
-                    el.pet = pets.find((el) => el.id === petId);
+                    el.pet = petsCopy.find((el) => el.id === petId);
                     delete el.petId
                 });
 
-            assert.deepStrictEqual(examinationsByPet, expectedExaminationsByPet );
+            assert.deepStrictEqual(actualExaminationsByPet, expectedExaminationsByPet );
+        });
+
+        it('should get only desired fields of all examinations by pet if pet id is right', async () => {
+            const query = { fields: 'description' };
+            const petId = examinationsCopy.find((el) => el.petId).petId;
+
+            const actualExaminationsByPet = await examinationsService.getExaminationsByPet(petId, query);
+            let expectedExaminationsByPet = examinationsCopy.filter((el) => el.petId === petId);
+            expectedExaminationsByPet = expectedExaminationsByPet
+                .map((el) => getKeys(el, query.fields));
+
+            assert.deepStrictEqual(actualExaminationsByPet, expectedExaminationsByPet);
+
+        });
+
+        it('should get all sorted examinations by pet if pet id is right', async () => {
+            const query = { sort: 'description'};
+            const { petId } = examinationsCopy.find((el) => el.petId);
+
+            const actualSortedExaminationsByPet = await examinationsService.getExaminationsByPet(petId, query);
+            const expectedSortedExaminationsByPet = examinationsCopy.filter((el) => el.petId === petId);
+
+            expectedSortedExaminationsByPet
+                .sort((a, b) => a[query.sort].toString().localeCompare(b[query.sort].toString()))
+                .map((el) => {
+                    el.pet = petsCopy.find((el) => el.id === petId);
+                    delete el.petId;
+                });
+
+            assert.deepStrictEqual(actualSortedExaminationsByPet, expectedSortedExaminationsByPet);
         });
 
         it('should return undefined examinations by pet if id is wrong', async () => {
@@ -85,6 +136,20 @@ describe('Unit test for examination service', () => {
 
             const delExam2 = await examinationsService.deleteSingleExamination(examId);
             assert.strictEqual(delExam2, undefined)
+        });
+
+        it('should delete examination properly and return only desired fields of deleted examination', async () => {
+            const examination = examinationsCopy.find((el) => el);
+            const examId = examination.id;
+            const query = { fields: 'description' };
+
+            const actualDeletedExamination = await examinationsService.deleteSingleExamination(examId, query);
+            const expectedDeletedExamination  = Object.assign({}, ...Object
+                .keys(examination)
+                .filter((el) => query.fields.includes(el))
+                .map((el) => ({[el]: examination[el]})));
+
+            assert.deepStrictEqual(actualDeletedExamination, expectedDeletedExamination) ;
         });
 
         it('should not delete anything and return undefined examination if id is wrong', async () => {
