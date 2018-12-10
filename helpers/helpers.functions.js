@@ -11,5 +11,16 @@ module.exports.addIdPushAndReturn = (obj, objects) => {
 };
 
 module.exports.getKeys = (element, fieldsArray) => Object.assign({}, ...Object.keys(element)
-    .filter((el) => fieldsArray.includes(el))
-    .map((remainingKey) => ({[remainingKey]: element[remainingKey]})));
+    .filter((el) => fieldsArray.split(',').concat('id').map((el) => el.trim()).includes(el))
+    .map((remainingKey) => ({
+        [remainingKey]: element[remainingKey]
+    })));
+
+module.exports.getLength = ({ skip, offset }) => {
+    const result = [+skip || 0];
+    if (offset) {
+        result.push((+skip || 0) + (+offset || 0));
+    }
+
+    return result;
+};

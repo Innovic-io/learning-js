@@ -8,12 +8,12 @@ module.exports = class PetsController {
     }
 
     async getPets(req, res) {
-        const allPets = await petService.getPets();
+        const allPets = await petService.getPets(req.query);
         res.status(200).json(allPets);
     }
 
     async getSinglePet(req, res) {
-        const singlePet = await petService.getSinglePet(req.params.petId);
+        const singlePet = await petService.getSinglePet(req.params.petId, req.query);
 
         if(singlePet) {
             res.status(200).json(singlePet);
@@ -23,7 +23,7 @@ module.exports = class PetsController {
     }
 
     async deleteSinglePet(req, res) {
-        const deletedPet = await petService.deleteSinglePet(req.params.petId);
+        const deletedPet = await petService.deleteSinglePet(req.params.petId, req.query);
 
         if(deletedPet) {
             res.status(200).json(deletedPet);

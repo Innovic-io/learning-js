@@ -1,18 +1,9 @@
 const { examinations } = require('../data.json');
 const PetsService = require('./pets.service');
 const { deepCopy } = require("../helpers/helpers.functions");
-const { addIdPushAndReturn, getKeys } = require('../helpers/helpers.functions');
+const { addIdPushAndReturn, getKeys, getLength } = require('../helpers/helpers.functions');
 
 const petsService = new PetsService();
-
-const getLength = ({ skip, offset }) => {
-    const result = [+skip || 0];
-    if (offset) {
-        result.push((+skip || 0) + (+offset || 0));
-    }
-
-    return result;
-};
 
 class ExaminationService{
     constructor(sentExaminations) {
@@ -23,10 +14,8 @@ class ExaminationService{
         let solution = deepCopy(this.serviceExaminations);
 
         if (query.fields) {
-
-            console.log(query.fields)
             solution = solution
-                .map((element) => getKeys(element, query.fields.split(',')));
+                .map((element) => getKeys(element, query.fields));
         }
         if(query.sort) {
             if(query.sort[0] === '-'){
@@ -44,11 +33,8 @@ class ExaminationService{
         let singleExamination = this.serviceExaminations.find((el) => el.id === examId);
 
         if(query.fields) {
-            singleExamination = Object.assign({}, ...Object
-                .keys(singleExamination)
-                .filter((el) => query.fields.split(',').includes(el))
-                .map((el) => ({[el]: singleExamination[el]})))
-        }
+           singleExamination = getKeys(singleExamination, query.fields);
+          }
 
         return singleExamination;
     }
@@ -68,7 +54,7 @@ class ExaminationService{
 
             if(query.fields) {
                 examinationsCopy = examinationsCopy
-                    .map((el) => getKeys(el, query.fields.split(',')));
+                    .map((el) => getKeys(el, query.fields));
             }
 
             if(query.sort) {
@@ -90,10 +76,7 @@ class ExaminationService{
         if(index > -1) {
             let [ deletedExam ] = this.serviceExaminations.splice(index, 1);
             if(query.fields) {
-                deletedExam = Object.assign({}, ...Object
-                    .keys(deletedExam)
-                    .filter((el) => query.fields.includes(el))
-                    .map((el) => ({ [el]: deletedExam[el]})))
+                deletedExam = getKeys(deletedExam, query.fields)
             }
             return deletedExam;
         }
