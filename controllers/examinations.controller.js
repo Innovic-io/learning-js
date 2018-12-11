@@ -8,6 +8,7 @@ class ExaminationsController{
     }
 
     async getExaminations(req, res) {
+        console.log(req.user)
         const examinations = await examinationsService.getExaminations(req.query);
 
         res.status(200).json(examinations);

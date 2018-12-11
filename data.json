@@ -62,5 +62,9 @@
       "scheduleTime": "2018-10-14 16:00:00",
       "id": "23jkk239564"
     }
+  ],
+  "users": [
+    { "name": "bane", "password": "123"},
+    {"name": "vladimir", "password": "code123"}
   ]
 }

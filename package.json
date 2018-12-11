@@ -6,7 +6,8 @@
     "uuid": "3.3.2",
     "supertest": "^3.3.0",
     "mocha": "^5.2.0",
-    "mongodb": "^3.1.10"
+    "mongodb": "^3.1.10",
+    "jsonwebtoken": "^8.4.0"
   },
   "scripts": {
     "start": "node server.js",
