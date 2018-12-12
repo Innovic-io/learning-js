@@ -14,7 +14,7 @@ module.exports = class LoginController {
     const user = await loginService.getUser(req.body);
     if (user) {
       const token = jwt.sign(
-        { name: user.name, exp: Date.now() / 1000 + 60 },
+        { name: user.name },
         CONFIG.secret
       );
       res.status(200).json({ auth: true, token });
