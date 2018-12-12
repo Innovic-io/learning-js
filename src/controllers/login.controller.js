@@ -1,31 +1,34 @@
 const jwt = require("jsonwebtoken");
 
-const {CONFIG} = require("../helpers/constants");
+const { CONFIG } = require("../helpers/constants");
 const LoginService = require("../services/login.service");
 
 let loginService;
 
 module.exports = class LoginController {
-    constructor() {
-        loginService = new LoginService();
+  constructor() {
+    loginService = new LoginService();
+  }
+
+  async getToken(req, res, next) {
+    const user = await loginService.getUser(req.body);
+    if (user) {
+      const token = jwt.sign(
+        { name: user.name, exp: Date.now() / 1000 + 60 },
+        CONFIG.secret
+      );
+      res.status(200).json({ auth: true, token });
     }
 
-    async getToken(req, res, next) {
-        const user = await loginService.getUser(req.body);
-        if (user) {
-            const token = jwt.sign({name: user.name, exp: Date.now() / 1000 + 60}, CONFIG.secret);
-            res.status(200).json({auth: true, token});
-        }
+    next();
+  }
 
-        next();
+  async decodeToken(req, res, next) {
+    try {
+      req.user = await jwt.verify(req.headers.authorization, CONFIG.secret);
+      next();
+    } catch (e) {
+      res.status(403).json({ message: e.message });
     }
-
-    async decodeToken(req, res, next) {
-        try {
-            req.user = await jwt.verify(req.headers.authorization, CONFIG.secret);
-            next();
-        } catch (e) {
-            res.status(403).json({message: e.message});
-        }
-    }
+  }
 };
