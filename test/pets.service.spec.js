@@ -1,9 +1,9 @@
 require("mocha");
 const assert = require("assert");
 
-const PetsService = require("../services/pets.service");
-const { pets } = require("../../data");
-const { deepCopy, getKeys } = require("../helpers/helpers.functions");
+const PetsService = require("../src/services/pets.service");
+const { pets } = require("../data");
+const { deepCopy, getKeys } = require("../src/helpers/helpers.functions");
 
 describe("Unit test for pets service", () => {
   let petsService;

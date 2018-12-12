@@ -1,11 +1,11 @@
 require("mocha");
 const assert = require("assert");
 
-const ExaminationsService = require("../services/examinations.service");
-const { getKeys } = require("../helpers/helpers.functions");
-const { PET_EXIST_ERROR } = require("../helpers/constants");
-const { examinations, pets } = require("../../data");
-const { deepCopy } = require("../helpers/helpers.functions");
+const ExaminationsService = require("../src/services/examinations.service");
+const { getKeys } = require("../src/helpers/helpers.functions");
+const { PET_EXIST_ERROR } = require("../src/helpers/constants");
+const { examinations, pets } = require("../data");
+const { deepCopy } = require("../src/helpers/helpers.functions");
 
 describe("Unit test for examination service", () => {
   let examinationsService;

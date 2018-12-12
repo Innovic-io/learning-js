@@ -4,7 +4,7 @@ const assert = require("assert");
 const {
   deepCopy,
   addIdPushAndReturn
-} = require("../helpers/helpers.functions");
+} = require("../src/helpers/helpers.functions");
 
 describe("Unit test for helpers", () => {
   beforeEach(() => {

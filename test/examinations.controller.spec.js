@@ -1,6 +1,6 @@
 require("mocha");
 const request = require("supertest");
-const app = require("../../server");
+const app = require("../server");
 const assert = require("assert");
 const {
   FEATURES,
@@ -9,17 +9,21 @@ const {
   PET_EXIST_ERROR,
   BAD_VALUE_TYPES,
   ALLOWED_FEATURES_ERROR
-} = require("../helpers/constants");
-const { deepCopy } = require("../helpers/helpers.functions");
+} = require("../src/helpers/constants");
+const { deepCopy } = require("../src/helpers/helpers.functions");
 
-const { examinations, pets } = require("../../data");
+const { examinations, pets } = require("../data");
 const type = Object.keys(FEATURES).filter(el => el === "examination");
+const auth = {
+  authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYmFuZSIsImlhdCI6MTU0NDYwMzA2OH0.PU2CHlcNWX4BNDnA-gnIYflnYNXoKifrZtTJVqsWFuA"
+};
 
 describe("Unit test for examination controller", () => {
   describe("GET testing", () => {
     it("should get all examinations", async () => {
       const res = await request(app)
         .get("/examinations")
+          .set(auth)
         .expect(examinations)
         .expect(200);
       assert.equal(res.body.length, examinations.length);
@@ -29,7 +33,8 @@ describe("Unit test for examination controller", () => {
       const existing = examinations.find(el => el.id);
       const res = await request(app)
         .get(`/examination/${existing.id}`)
-        .expect(200);
+          .set(auth)
+          .expect(200);
 
       assert.deepStrictEqual(res.body, existing);
     });
@@ -38,6 +43,7 @@ describe("Unit test for examination controller", () => {
       const examId = 2121232321321;
       const res = await request(app)
         .get(`/examination/${examId}`)
+          .set(auth)
         .expect(204);
       assert.deepStrictEqual(res.body, {});
     });
@@ -48,7 +54,8 @@ describe("Unit test for examination controller", () => {
       const existing = newExaminations.find(el => el.petId);
       const res = await request(app)
         .get(`/examinations/pet/${existing.petId}`)
-        .expect(200);
+          .set(auth)
+          .expect(200);
       existing.pet = existing.pet = pets.find(el => el.id === existing.petId);
       delete existing.petId;
 
@@ -59,7 +66,8 @@ describe("Unit test for examination controller", () => {
       const notExisting = 34342433243;
       const res = await request(app)
         .get(`/examination/${notExisting}`)
-        .expect(204);
+          .set(auth)
+          .expect(204);
 
       assert.deepStrictEqual(res.body, {});
     });
@@ -71,7 +79,8 @@ describe("Unit test for examination controller", () => {
       const beforeLength = examinations.length;
       const res = await request(app)
         .delete(`/examination/${existed.id}`)
-        .expect(200);
+          .set(auth)
+          .expect(200);
       const afterLength = examinations.length;
 
       assert.deepStrictEqual(existed, res.body);
@@ -82,7 +91,8 @@ describe("Unit test for examination controller", () => {
       const notExisting = undefined;
       const res = await request(app)
         .delete(`/examination/${notExisting}`)
-        .expect(400);
+          .set(auth)
+          .expect(400);
       assert.deepStrictEqual(res.body, EXAMINATION_EXIST_ERROR);
     });
   });
@@ -97,6 +107,7 @@ describe("Unit test for examination controller", () => {
       };
       const res = await request(app)
         .post("/examination")
+          .set(auth)
         .send(examToAdd)
         .expect(201);
 
@@ -111,6 +122,7 @@ describe("Unit test for examination controller", () => {
       };
       const res = await request(app)
         .post("/examination")
+          .set(auth)
         .send(examToAdd)
         .expect(400);
 
@@ -125,6 +137,7 @@ describe("Unit test for examination controller", () => {
       };
       const res = await request(app)
         .post("/examination")
+          .set(auth)
         .send(examToAdd)
         .expect(400);
 
@@ -139,6 +152,7 @@ describe("Unit test for examination controller", () => {
       };
       const res = await request(app)
         .post("/examination")
+          .set(auth)
         .send(examToAdd)
         .expect(400);
 
@@ -153,7 +167,8 @@ describe("Unit test for examination controller", () => {
       };
       const res = await request(app)
         .post("/examination")
-        .send(examToAdd)
+          .set(auth)
+          .send(examToAdd)
         .expect(400);
       assert.deepStrictEqual(res.body, PET_EXIST_ERROR);
     });
@@ -167,7 +182,8 @@ describe("Unit test for examination controller", () => {
 
       const res = await request(app)
         .put(`/examination/${existed.id}`)
-        .send(featureToAdd)
+          .set(auth)
+          .send(featureToAdd)
         .expect(200);
 
       assert.notDeepStrictEqual(res.body, oldPet);
@@ -178,9 +194,10 @@ describe("Unit test for examination controller", () => {
       const { id } = examinations.find(el => el.id);
 
       const res = await request(app)
-        .put(`/examination/${id}`)
-        .send(featureToAdd)
-        .expect(400);
+         .put(`/examination/${id}`)
+          .set(auth)
+          .send(featureToAdd)
+         .expect(400);
 
       assert.deepStrictEqual(res.body, ALLOWED_FEATURES_ERROR(type));
     });
@@ -190,9 +207,10 @@ describe("Unit test for examination controller", () => {
       const { id } = examinations.find(el => el.id);
 
       const res = await request(app)
-        .put(`/examination/${id}`)
-        .send(featureToAdd)
-        .expect(400);
+          .put(`/examination/${id}`)
+          .set(auth)
+          .send(featureToAdd)
+          .expect(400);
 
       assert.deepStrictEqual(res.body, BAD_VALUE_TYPES);
     });

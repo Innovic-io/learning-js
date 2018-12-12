@@ -63,8 +63,8 @@
       "id": "23jkk239564"
     }
   ],
-  "users": [
-    { "name": "bane", "password": "123"},
-    {"name": "vladimir", "password": "code123"}
+  "users":[
+    { "name": "bane", "password": "123" },
+    { "name": "vladimir", "password": "code123" }
   ]
 }

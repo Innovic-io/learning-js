@@ -4,13 +4,17 @@
     "body-parser": "^1.18.3",
     "express": "~4.16.4",
     "uuid": "3.3.2",
-    "supertest": "^3.3.0",
-    "mocha": "^5.2.0",
     "mongodb": "^3.1.10",
     "jsonwebtoken": "^8.4.0"
   },
+  "devDependencies": {
+    "supertest": "^3.3.0",
+    "mocha": "^5.2.0",
+    "prettier": "^1.15.3"
+  },
   "scripts": {
     "start": "node server.js",
-    "test": "NODE_ENV=test mocha"
+    "test": "NODE_ENV=test mocha",
+    "lint": "prettier --write ./src/**/**.js"
   }
 }

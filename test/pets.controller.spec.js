@@ -1,6 +1,6 @@
 require("mocha");
 const request = require("supertest");
-const app = require("../../server");
+const app = require("../server");
 const assert = require("assert");
 const {
   FEATURES,
@@ -8,17 +8,18 @@ const {
   PET_EXIST_ERROR,
   BAD_VALUE_TYPES,
   REQUIRED_FEATURES_ERROR
-} = require("../helpers/constants");
+} = require("../src/helpers/constants");
 
-const { pets } = require("../../data");
-const { deepCopy } = require("../helpers/helpers.functions");
+const { pets } = require("../data");
+const { deepCopy } = require("../src/helpers/helpers.functions");
 const type = Object.keys(FEATURES).filter(el => el === "pet");
-
+const auth = { authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYmFuZSIsImlhdCI6MTU0NDYwMzA2OH0.PU2CHlcNWX4BNDnA-gnIYflnYNXoKifrZtTJVqsWFuA"};
 describe("Unit test for pets controller", () => {
   describe("GET testing", () => {
     it("should get all pets", async () => {
       const res = await request(app)
         .get("/pets")
+          .set(auth)
         .expect(pets)
         .expect(200);
       assert.strictEqual(res.body.length, pets.length);
@@ -28,6 +29,7 @@ describe("Unit test for pets controller", () => {
       const petId = pets.find(el => el).id;
       const res = await request(app)
         .get(`/pet/${petId}`)
+          .set(auth)
         .expect(200);
       assert.deepStrictEqual(res.body, pets.find(el => el.id === petId));
     });
@@ -36,6 +38,7 @@ describe("Unit test for pets controller", () => {
       const petId = undefined;
       const res = await request(app)
         .get(`/pet/${petId}`)
+          .set(auth)
         .expect(204);
 
       assert.deepStrictEqual(res.body, {});
@@ -49,6 +52,7 @@ describe("Unit test for pets controller", () => {
       const beforeLength = pets.length;
       const res = await request(app)
         .delete(`/pet/${petId}`)
+          .set(auth)
         .expect(200);
       const afterLength = pets.length;
 
@@ -60,6 +64,7 @@ describe("Unit test for pets controller", () => {
       const petId = 8384383823;
       const res = await request(app)
         .delete(`/pet/${petId}`)
+          .set(auth)
         .expect(400);
 
       assert.deepStrictEqual(res.body, PET_EXIST_ERROR);
@@ -78,6 +83,7 @@ describe("Unit test for pets controller", () => {
       };
       const res = await request(app)
         .post("/pet")
+          .set(auth)
         .send(petToAdd)
         .expect(201);
       oldPets.push(res.body);
@@ -94,6 +100,7 @@ describe("Unit test for pets controller", () => {
       };
       const res = await request(app)
         .post("/pet")
+          .set(auth)
         .send(petToAdd)
         .expect(400);
 
@@ -110,6 +117,7 @@ describe("Unit test for pets controller", () => {
       };
       const res = await request(app)
         .post("/pet")
+          .set(auth)
         .send(petToAdd)
         .expect(400);
 
@@ -126,6 +134,7 @@ describe("Unit test for pets controller", () => {
       };
       const res = await request(app)
         .post("/pet")
+          .set(auth)
         .send(petToAdd)
         .expect(400);
 
@@ -145,6 +154,7 @@ describe("Unit test for pets controller", () => {
 
       const res = await request(app)
         .put(`/pet/${petId}`)
+          .set(auth)
         .send(body)
         .expect(201);
 
@@ -160,6 +170,7 @@ describe("Unit test for pets controller", () => {
 
       const res = await request(app)
         .put(`/pet/${id}`)
+          .set(auth)
         .send(body)
         .expect(400);
 
@@ -175,6 +186,7 @@ describe("Unit test for pets controller", () => {
 
       const res = await request(app)
         .put(`/pet/${id}`)
+          .set(auth)
         .send(body)
         .expect(400);
 
